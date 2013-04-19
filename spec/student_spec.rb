@@ -9,8 +9,7 @@ describe Student, "#name and #age" do
     raise RuntimeError, "be sure to run 'rake db:migrate' before running these specs" unless ActiveRecord::Base.connection.table_exists?(:students).should be_true
     Student.delete_all
 
-    @student = Student.new
-    @student.assign_attributes(
+    @student = Student.new(
       :first_name => "Happy",
       :last_name => "Gilmore",
       :gender => 'male',
@@ -43,14 +42,13 @@ describe Student, "validations" do
 
   before(:each) do
     @student = Student.new
-    @student.assign_attributes(
+    @student.assign_attributes ({
       :first_name => "Kreay",
       :last_name => "Shawn",
       :birthday => Date.new(1989,9,24),
       :gender => 'female',
       :email => 'kreayshawn@oaklandhiphop.net',
-      :phone => '(510) 555-1212 x4567'
-    )
+      :phone => '(510) 555-1212 x4567'})
   end
 
   it "should accept valid info" do
