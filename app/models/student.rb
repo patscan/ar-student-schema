@@ -1,13 +1,6 @@
 require_relative '../../db/config'
 require 'date'
 
-class StudentValidator < ActiveModel::Validator
-  def validate(record)
-    return true if self.age > 4
-    record.errors[:base] << "Sorry, no toddlers."
-  end
-end
-
 class Student < ActiveRecord::Base
 
   validates :email, :format => { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, 
