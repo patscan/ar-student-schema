@@ -15,7 +15,7 @@ class Student < ActiveRecord::Base
             :uniqueness => true
   validates :age, :exclusion => {:in => 0..4, :message=> "Age should be larger than 4",
             :on => :create }
-  validates :phone, :format => { :with => /\(\d{3}\)\s\d{3}-\d{4}[\sx\d*]*/ }
+  validates :phone, :format => { :with => /\(?\d{3}\)?[\s-]?\d{3}-\d{4}[\sx\d*]*/ }
 
   def name
     "#{first_name} #{last_name}"
@@ -28,9 +28,3 @@ class Student < ActiveRecord::Base
            (now.month == birthday.month && now.day >= birthday.day)) ? 0 : 1)
   end
 end
-
-
-s = Student.new({ :birthday => Date.new(2012,1,13) })
-puts s[:birthday].year
-puts s.age
-
