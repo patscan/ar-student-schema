@@ -10,6 +10,8 @@ class Student < ActiveRecord::Base
             :on => :create }
   validates :phone, :format => { :with => /\(?\d{3}\)?[\s-]?\d{3}-\d{4}[\sx\d*]*/ }
 
+  belongs_to :teacher
+
   def name
     "#{first_name} #{last_name}"
   end

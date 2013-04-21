@@ -1,6 +1,7 @@
 require 'rspec'
 require 'faker'
 require_relative '../app/models/teacher'
+require_relative '../app/models/student'
 
 #      t.string :name
 #      t.string :email
@@ -15,12 +16,13 @@ describe Teacher, "validations" do
 
     @teachers = []
 
+    counter = 0
     9.times do
+      counter +=1
       @teachers << Teacher.create(
-        :name =>  Faker::Name.name,
-        :email => Faker::Internet.email,
-        :phone => Faker::PhoneNumber.phone_number
-        )
+        :name => "John Snow" + counter.to_s,
+        :email =>  "crow@thewall" + counter.to_s + ".com",
+        :phone => "314-256-775" + counter.to_s)
     end
   end
 
@@ -37,4 +39,30 @@ describe Teacher, "validations" do
     
     duplicate_email.should_not be_valid
   end
+
+  it "should be possible to find a teacher given a student" do
+    @new_student = Student.create(
+      :birthday => Time.new(1981,11,01),
+      :teacher_id => Teacher.all.last.id)
+
+    Teacher.find_by_id(@new_student.teacher_id).should == Teacher.all.last        
+  end
+
+  it "should be possible to find all students belonging to a teacher" do
+    @newer_student = Student.create(
+      :birthday => Time.new(1980,12,25),
+      :teacher_id => Teacher.all.last.id)
+
+    @newest_student = Student.create(
+      :birthday => Time.new(1981,11,01),
+      :teacher_id => Teacher.all.last.id)
+
+    Student.find_all_by_teacher_id(Teacher.all.last.id).should ==
+      [@newer_student, @newest_student]
+  end
 end
+
+
+
+
+
